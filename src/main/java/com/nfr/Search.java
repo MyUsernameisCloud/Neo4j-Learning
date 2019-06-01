@@ -37,7 +37,7 @@ import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 public class Search{
-    static Result tmp;
+    Result tmp;
     public void search(GraphDatabaseService graphDB){
         try(Transaction tx = graphDB.beginTx()){
             StringBuilder sb = new StringBuilder();
@@ -45,6 +45,7 @@ public class Search{
             sb.append("return a");
             Result result = graphDB.execute(sb.toString());
             tmp = result;
+            System.out.println(result.toString());
            // System.out.println(result);
             //  遍历结果
             // while(result.hasNext()){

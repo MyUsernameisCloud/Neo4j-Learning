@@ -29,7 +29,7 @@ public class Searchmovies{
             sb.append("return a");
             Result result = graphDB.execute(sb.toString());
             Node userJohn = (Node)result.next().get("a");
-            TraversalDescription td = graphDB.traversalDescription()
+            TraversalDescription td = graphDB.traversalDescription().depthFirst()
             .relationships(MyRelationshipTypes.IS_FRIEND_OF).relationships(MyRelationshipTypes.HAS_SEEN,Direction.OUTGOING).evaluator(Evaluators.atDepth(2));
             
             Traverser traverser = td.traverse(userJohn);

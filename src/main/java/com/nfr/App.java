@@ -65,8 +65,8 @@ public class App {
         GraphDatabaseService graphDB = new GraphDatabaseFactory().newEmbeddedDatabase(file);
         System.out.println("Server is up and Running");
         
-        //new Search().search(graphDB);
-        new Searchmovies().searchmovies(graphDB);
+        new Search().search(graphDB);
+        //new Searchmovies().searchmovies(graphDB);
 
         if (f){
         try(Transaction tx = graphDB.beginTx()){
