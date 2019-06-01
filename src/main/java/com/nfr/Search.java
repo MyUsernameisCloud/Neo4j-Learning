@@ -37,25 +37,35 @@ import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 public class Search{
+    static Result tmp;
     public void search(GraphDatabaseService graphDB){
         try(Transaction tx = graphDB.beginTx()){
             StringBuilder sb = new StringBuilder();
             sb.append("match (a)-[r:nfr__conflictWith]->(b)");
             sb.append("return a");
             Result result = graphDB.execute(sb.toString());
+            tmp = result;
            // System.out.println(result);
             //  遍历结果
-             while(result.hasNext()){
+            // while(result.hasNext()){
+
                 // get("a")和查询语句的return a 相匹配
-                //Node a = (Node)result.next().get("a");
+              //  Node a = (Node)result.next().get("a");
                 //Relationship r = (Relationship)result.next().get("r");
-                Node b = (Node)result.next().get("b");
-                System.out.println(b.getId()+" : "+ b.getProperty("rdfs__label") );
+                //Node b = (Node)result.next().get("b");
+             //   System.out.println(a.getId()+" : "+ a.getProperty("rdfs__label"));
                /*
                 System.out.println(a.getId()+" : "+
                 a.getProperty("rdfs__label")+"--"+r.getProperty("rdfs__label")+"-->" + b.getId()+" : "+ b.getProperty("rdfs__label")
                 );*/
-            }
+           // }
+            Node n = (Node)tmp.next().get("a");
+            Iterable<Relationship> r = n.getRelationships();
+                for (Relationship relationship : r){
+                    System.out.println("start: "+ relationship.getStartNode().getProperty("rdfs__label")+
+                       "---"+ relationship.getType() + "-->" + 
+                        "end: "+relationship.getEndNode().getProperty("rdfs__label"));
+                } 
             tx.success();
             System.out.println("Done successfully");
         }
