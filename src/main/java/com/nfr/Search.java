@@ -32,6 +32,8 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.UniqueFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.neo4j.cypher.internal.javacompat.ExecutionEngine;
+import org.neo4j.cypher.internal.javacompat.ExecutionResult;
 // import org.semanticweb.HermiT.Reasoner;
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
@@ -43,9 +45,16 @@ public class Search{
             StringBuilder sb = new StringBuilder();
             sb.append("match (a)-[r:nfr__conflictWith]->(b)");
             sb.append("return a");
-            Result result = graphDB.execute(sb.toString());
+            ExecutionEngine engine = new ExecutionEngine(graphDB);
+            ExecutionResult result = engine.execute(sb);
+            System.out.println( result );
+
+
+           /* Result result = graphDB.execute(sb.toString());
             tmp = result;
-            System.out.println(result.toString());
+            System.out.println(result.toString());*/
+
+
            // System.out.println(result);
             //  遍历结果
             // while(result.hasNext()){
@@ -60,7 +69,8 @@ public class Search{
                 a.getProperty("rdfs__label")+"--"+r.getProperty("rdfs__label")+"-->" + b.getId()+" : "+ b.getProperty("rdfs__label")
                 );*/
            // }
-            Node n = (Node)tmp.next().get("a");
+          
+          /* Node n = (Node)tmp.next().get("a");
             Iterable<Relationship> r = n.getRelationships();
                 for (Relationship relationship : r){
                     System.out.println("start: "+ relationship.getStartNode().getProperty("rdfs__label")+
@@ -68,7 +78,7 @@ public class Search{
                         "end: "+relationship.getEndNode().getProperty("rdfs__label"));
                 } 
             tx.success();
-            System.out.println("Done successfully");
+            System.out.println("Done successfully");*/
         }
         catch(Exception e){ e.printStackTrace(); }
         finally{ graphDB.shutdown(); }
