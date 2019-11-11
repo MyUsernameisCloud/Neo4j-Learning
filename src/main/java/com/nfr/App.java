@@ -71,10 +71,11 @@ public class App {
         if (f){
         try(Transaction tx = graphDB.beginTx()){
             /**
+             * 
              * 新增User节点
              * 添加Lable以区分节点类型
              * 每个节点设置name属性
-             */
+             */     
            
             Node user1 = graphDB.createNode(MyLabels.USERS);
             user1.setProperty("name", "John Johnson");
